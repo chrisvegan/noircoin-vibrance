@@ -40,6 +40,38 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12 space-y-24">
+        {/* Logo Section - NEW */}
+        <section id="about" className="py-10">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight text-center">
+              <span className="text-gradient">$CRIMECZN</span> Fighting Crypto Crime
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 shadow-2xl">
+                <div className="aspect-square relative overflow-hidden rounded-lg">
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10"></div>
+                  <img 
+                    src="/placeholder.svg" 
+                    alt="Crime Ceason Logo" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+              <div className="text-left space-y-4">
+                <p className="text-lg text-white/90 leading-relaxed">
+                  <span className="text-xl font-semibold text-gradient">Crime Ceason ($CRIMECZN)</span> is on a mission to expose scams and rugpulls in the crypto world.
+                </p>
+                <p className="text-white/70 leading-relaxed">
+                  In a space rife with deception, we stand as vigilant detectives investigating the shadows of blockchain.
+                </p>
+                <p className="text-white/70 leading-relaxed">
+                  Join our growing community of crypto sleuths and help us clean up the blockchain underworld.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+        
         {/* Price Chart Section */}
         <section id="chart" className="py-10">
           <div className="max-w-5xl mx-auto">
@@ -144,6 +176,7 @@ const Index = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Quick Links</h3>
               <ul className="space-y-2">
+                <li><a href="#about" className="text-white/70 hover:text-white transition-colors">About</a></li>
                 <li><a href="#chart" className="text-white/70 hover:text-white transition-colors">Chart</a></li>
                 <li><a href="#roadmap" className="text-white/70 hover:text-white transition-colors">Roadmap</a></li>
                 <li><a href="#team" className="text-white/70 hover:text-white transition-colors">Team</a></li>
@@ -154,14 +187,14 @@ const Index = () => {
             <div>
               <h3 className="text-xl font-bold mb-4">Community</h3>
               <div className="flex space-x-4">
-                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
+                <a href="https://t.me/crimeczn" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full" aria-label="Telegram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.82 9.242a2.446 2.446 0 0 0-1.67-1.518c-1.196-.379-2.415-.575-3.648-.577-1.297-.013-6.547-.013-6.547-.013s-4.673-.01-6.01.034c-1.253.034-2.462.266-3.514.677A2.36 2.36 0 0 0 .1 9.021 24.93 24.93 0 0 0 .064 12c-.013 1.024.026 2.048.115 3.07.056.606.343 1.175.792 1.573.45.398 1.034.658 1.653.732 1.223.303 2.47.453 3.726.446 1.684.017 3.368-.025 5.05-.124l.294-.023c1.257-.11 2.48-.559 3.635-1.128.561-.277.969-.754 1.137-1.324.43-1.265.65-2.586.65-3.917-.006-1.009-.052-1.955-.232-2.92Z"/><path d="m9.602 14.682 4.173-2.401-4.173-2.402v4.803Z"/></svg>
+                </a>
+                <a href="https://x.com/crimeseason_" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full" aria-label="X (Twitter)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z"></path></svg>
                 </a>
-                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.198 10.617a8.25 8.25 0 0 0 -15.771 -4.33l-2.427 -1.395l-3 6l6.195 3l2.113 -4.175a4.2 4.2 0 0 1 7.915 0"></path><path d="M16.5 19l-3.5 2l-3.5 -2"></path><path d="M19 22l-6.5 -3.5l-6.5 3.5"></path></svg>
-                </a>
-                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <a href="https://instagram.com/crimeczn" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full" aria-label="Instagram">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                 </a>
               </div>
             </div>

@@ -1,7 +1,8 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ExternalLink } from "lucide-react";
+import { Copy, Check, ExternalLink, Lock } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 interface HeroSectionProps {
   contractAddress: string;
@@ -21,6 +22,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
       {/* Content */}
       <div className="container relative z-10 mx-auto px-4 text-center">
         <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.2s" }}>
+          <div className="mb-6 flex justify-center">
+            <div className="w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden flex items-center justify-center">
+              <span className="text-4xl font-black text-gradient">C</span>
+            </div>
+          </div>
           <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight spotlight-text">
             CRIME CEASON
           </h1>
@@ -30,7 +36,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
         </div>
         
         <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.4s" }}>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
             <Button className="bg-white text-black hover:bg-white/90 shadow-xl px-6 py-6 text-lg">
               <span>Buy $CRIMECZN</span>
               <ExternalLink className="ml-2 h-4 w-4" />
@@ -38,6 +44,19 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
             <Button variant="outline" className="border-white/20 bg-white/5 hover:bg-white/10 px-6 py-6 text-lg">
               View Chart
             </Button>
+          </div>
+          
+          <div className="mb-8 flex justify-center">
+            <a 
+              href="https://app.streamflow.finance/contract/solana/mainnet/BbWmPxFPwwiZnB9W9LPnxaMwLM5Uczs3uP29BRZDgEet" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
+            >
+              <Lock className="h-4 w-4 text-green-400" />
+              <span className="text-green-400 font-medium">Tokens locked until July 2024</span>
+              <ExternalLink className="h-3 w-3 text-white/60" />
+            </a>
           </div>
         </div>
         
