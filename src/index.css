@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -98,4 +99,55 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Film Noir specific styles */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Roboto+Mono:wght@400;500&display=swap');
+
+body {
+  font-family: 'Playfair Display', serif;
+  background-color: #000;
+  color: #fff;
+}
+
+.text-gradient {
+  @apply bg-gradient-to-r from-white via-white/90 to-white/75 bg-clip-text text-transparent;
+}
+
+.shadow-detective {
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.8);
+}
+
+/* Noir animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spotlight {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1.2s ease-out forwards;
+}
+
+.bg-noir-gradient {
+  background: linear-gradient(135deg, #111 0%, #222 100%);
+}
+
+.spotlight-text {
+  background: linear-gradient(90deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.8) 100%);
+  background-size: 200% auto;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  animation: spotlight 8s linear infinite;
+}
+
+/* Responsive styles */
+.container {
+  @apply px-4 sm:px-6 lg:px-8 mx-auto;
 }

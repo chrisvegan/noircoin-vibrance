@@ -1,12 +1,178 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import PriceChart from "@/components/PriceChart";
+import Roadmap from "@/components/Roadmap";
+import Team from "@/components/Team";
+import MemeSubmission from "@/components/MemeSubmission";
+import AntiScamSection from "@/components/AntiScamSection";
+import HeroSection from "@/components/HeroSection";
+import { ArrowDown, Shield, Banknote, Users, FileImage, ExternalLink } from "lucide-react";
 
 const Index = () => {
+  const { toast } = useToast();
+  const [copiedAddress, setCopiedAddress] = useState(false);
+  
+  const contractAddress = "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t";
+  
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(contractAddress);
+    setCopiedAddress(true);
+    toast({
+      title: "Address Copied",
+      description: "Contract address copied to clipboard",
+    });
+    
+    setTimeout(() => setCopiedAddress(false), 2000);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gradient-to-b from-black to-zinc-900 text-white overflow-x-hidden">
+      {/* Hero Section */}
+      <HeroSection contractAddress={contractAddress} onCopy={copyToClipboard} copiedAddress={copiedAddress} />
+      
+      {/* Scroll indicator */}
+      <div className="flex justify-center mb-8 animate-bounce">
+        <ArrowDown className="h-8 w-8 text-white/50" />
       </div>
+      
+      {/* Main Content */}
+      <main className="container mx-auto px-4 py-12 space-y-24">
+        {/* Price Chart Section */}
+        <section id="chart" className="py-10">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-center">
+              <span className="text-gradient">$CRIMECZN</span> Price Action
+            </h2>
+            <div className="backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 p-4 shadow-2xl">
+              <PriceChart />
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <Banknote className="h-5 w-5" /> Market Cap
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">$10.5M</p>
+                  <p className="text-sm text-green-400">+15.3% (24h)</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <Shield className="h-5 w-5" /> Holders
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">2,485</p>
+                  <p className="text-sm text-green-400">+103 (24h)</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <Users className="h-5 w-5" /> Community
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">12.7K</p>
+                  <p className="text-sm text-green-400">Growing daily</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+        
+        {/* Anti-Scam Section */}
+        <AntiScamSection />
+        
+        {/* Roadmap Section */}
+        <section id="roadmap" className="py-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 tracking-tight text-center">
+            The <span className="text-gradient">Investigation</span> Timeline
+          </h2>
+          <Roadmap />
+        </section>
+        
+        {/* Team Section */}
+        <section id="team" className="py-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 tracking-tight text-center">
+            The <span className="text-gradient">Detectives</span>
+          </h2>
+          <Team />
+          <div className="mt-12 text-center">
+            <p className="text-xl italic text-white/70 mb-4">
+              In collaboration with Dirty Jeeto
+            </p>
+            <Button variant="outline" className="group bg-white/5 hover:bg-white/10">
+              <span>Dirty Jeeto</span>
+              <ExternalLink className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Button>
+          </div>
+        </section>
+        
+        {/* Meme Submission Section */}
+        <section id="memes" className="py-10">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 tracking-tight text-center">
+            Submit Your <span className="text-gradient">Evidence</span>
+          </h2>
+          <div className="max-w-2xl mx-auto">
+            <MemeSubmission />
+          </div>
+        </section>
+      </main>
+      
+      {/* Footer */}
+      <footer className="bg-black/50 backdrop-blur-lg border-t border-white/10 mt-20">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div>
+              <h3 className="text-xl font-bold mb-4">$CRIMECZN</h3>
+              <p className="text-white/70">
+                Exposing crypto scams one token at a time.
+                Join the fight against rugpulls and scammers.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#chart" className="text-white/70 hover:text-white transition-colors">Chart</a></li>
+                <li><a href="#roadmap" className="text-white/70 hover:text-white transition-colors">Roadmap</a></li>
+                <li><a href="#team" className="text-white/70 hover:text-white transition-colors">Team</a></li>
+                <li><a href="#memes" className="text-white/70 hover:text-white transition-colors">Meme Submission</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-xl font-bold mb-4">Community</h3>
+              <div className="flex space-x-4">
+                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z"></path></svg>
+                </a>
+                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.198 10.617a8.25 8.25 0 0 0 -15.771 -4.33l-2.427 -1.395l-3 6l6.195 3l2.113 -4.175a4.2 4.2 0 0 1 7.915 0"></path><path d="M16.5 19l-3.5 2l-3.5 -2"></path><path d="M19 22l-6.5 -3.5l-6.5 3.5"></path></svg>
+                </a>
+                <a href="#" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-white/10 mt-10 pt-6 text-center text-white/50 text-sm">
+            <p>© 2023 Crime Ceason ($CRIMECZN). All rights reserved.</p>
+            <p className="mt-1">This website is for entertainment purposes only. Not financial advice.</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
