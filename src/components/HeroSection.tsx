@@ -23,8 +23,12 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
       <div className="container relative z-10 mx-auto px-4 text-center">
         <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.2s" }}>
           <div className="mb-6 flex justify-center">
-            <div className="w-32 h-32 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden flex items-center justify-center">
-              <span className="text-4xl font-black text-gradient">C</span>
+            <div className="w-40 h-40 rounded-lg overflow-hidden flex items-center justify-center">
+              <img 
+                src="/lovable-uploads/3147b6cc-bf16-497c-861d-f32fa1daa67c.png" 
+                alt="CRIMECZN Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
           </div>
           <h1 className="text-4xl md:text-7xl font-black mb-6 tracking-tight spotlight-text">
@@ -37,7 +41,10 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
         
         <div className="animate-fade-in opacity-0" style={{ animationDelay: "0.4s" }}>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
-            <Button className="bg-white text-black hover:bg-white/90 shadow-xl px-6 py-6 text-lg">
+            <Button 
+              className="bg-white text-black hover:bg-white/90 shadow-xl px-6 py-6 text-lg"
+              onClick={() => window.open("https://raydium.io/swap/?inputCurrency=sol&outputCurrency=DmQ6ZD1HGACksWNc4md4RwyB4MgCVah8oFL1XEdGmoon", "_blank")}
+            >
               <span>Buy $CRIMECZN</span>
               <ExternalLink className="ml-2 h-4 w-4" />
             </Button>
