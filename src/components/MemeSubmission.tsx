@@ -3,13 +3,14 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { FileImage, Upload } from "lucide-react";
+import { FileImage, Upload, CheckCircle } from "lucide-react";
 
 const MemeSubmission = () => {
   const { toast } = useToast();
   const [dragActive, setDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [showExampleMeme, setShowExampleMeme] = useState(false);
 
   // Handle file drag events
   const handleDrag = (e: React.DragEvent) => {
@@ -66,6 +67,7 @@ const MemeSubmission = () => {
     }
 
     setSelectedFile(file);
+    setShowExampleMeme(false);
     
     // Create preview URL
     const reader = new FileReader();
@@ -75,11 +77,18 @@ const MemeSubmission = () => {
     reader.readAsDataURL(file);
   };
 
+  // Use the example meme
+  const useExampleMeme = () => {
+    setPreviewUrl("/lovable-uploads/b321fa1a-c225-4d74-97d2-0e82a5b14319.png");
+    setSelectedFile(null);
+    setShowExampleMeme(true);
+  };
+
   // Submit the meme
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!selectedFile) {
+    if (!previewUrl) {
       toast({
         title: "Error",
         description: "Please select an image first",
@@ -99,6 +108,7 @@ const MemeSubmission = () => {
       // Reset form
       setSelectedFile(null);
       setPreviewUrl(null);
+      setShowExampleMeme(false);
     }, 1500);
   };
 
@@ -125,11 +135,11 @@ const MemeSubmission = () => {
             
             {previewUrl ? (
               <div className="space-y-4">
-                <div className="relative mx-auto max-w-xs">
+                <div className="relative mx-auto max-w-md">
                   <img 
                     src={previewUrl} 
                     alt="Meme preview" 
-                    className="mx-auto max-h-48 object-contain rounded-md shadow-lg"
+                    className="mx-auto max-h-[400px] object-contain rounded-md shadow-lg"
                   />
                   <Button
                     type="button"
@@ -139,13 +149,14 @@ const MemeSubmission = () => {
                     onClick={() => {
                       setSelectedFile(null);
                       setPreviewUrl(null);
+                      setShowExampleMeme(false);
                     }}
                   >
                     ✕
                   </Button>
                 </div>
                 <p className="text-sm text-white/60 truncate">
-                  {selectedFile?.name}
+                  {showExampleMeme ? "Crypto Rugmap Example" : selectedFile?.name}
                 </p>
               </div>
             ) : (
@@ -160,14 +171,24 @@ const MemeSubmission = () => {
                 <p className="text-sm text-white/60 mb-4">
                   or click to browse (JPEG, PNG, GIF up to 5MB)
                 </p>
-                <Button 
-                  type="button" 
-                  variant="outline"
-                  className="bg-white/10 hover:bg-white/20"
-                  onClick={() => document.getElementById('meme-upload')?.click()}
-                >
-                  Select File
-                </Button>
+                <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <Button 
+                    type="button" 
+                    variant="outline"
+                    className="bg-white/10 hover:bg-white/20"
+                    onClick={() => document.getElementById('meme-upload')?.click()}
+                  >
+                    Select File
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="bg-white/5 hover:bg-white/10"
+                    onClick={useExampleMeme}
+                  >
+                    Use Rugmap Example
+                  </Button>
+                </div>
               </>
             )}
           </div>
@@ -190,3 +211,4 @@ const MemeSubmission = () => {
 };
 
 export default MemeSubmission;
+
