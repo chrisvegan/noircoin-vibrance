@@ -41,7 +41,11 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
               <span>Buy $CRIMECZN</span>
               <ExternalLink className="ml-2 h-4 w-4" />
             </Button>
-            <Button variant="outline" className="border-white/20 bg-white/5 hover:bg-white/10 px-6 py-6 text-lg">
+            <Button 
+              variant="outline" 
+              className="border-white/20 bg-white/5 hover:bg-white/10 px-6 py-6 text-lg"
+              onClick={() => window.open("https://birdeye.so/token/DmQ6ZD1HGACksWNc4md4RwyB4MgCVah8oFL1XEdGmoon?chain=solana", "_blank")}
+            >
               View Chart
             </Button>
           </div>
@@ -54,7 +58,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
               className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 hover:bg-white/20 transition-all duration-300"
             >
               <Lock className="h-4 w-4 text-green-400" />
-              <span className="text-green-400 font-medium">Tokens locked until July 2024</span>
+              <span className="text-green-400 font-medium">Tokens locked until July 2025</span>
               <ExternalLink className="h-3 w-3 text-white/60" />
             </a>
           </div>

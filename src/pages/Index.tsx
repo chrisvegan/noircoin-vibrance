@@ -15,7 +15,7 @@ const Index = () => {
   const { toast } = useToast();
   const [copiedAddress, setCopiedAddress] = useState(false);
   
-  const contractAddress = "0x1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t";
+  const contractAddress = "DmQ6ZD1HGACksWNc4md4RwyB4MgCVah8oFL1XEdGmoon";
   
   const copyToClipboard = () => {
     navigator.clipboard.writeText(contractAddress);
@@ -201,7 +201,7 @@ const Index = () => {
           </div>
           
           <div className="border-t border-white/10 mt-10 pt-6 text-center text-white/50 text-sm">
-            <p>© 2023 Crime Ceason ($CRIMECZN). All rights reserved.</p>
+            <p>© 2025 Crime Ceason ($CRIMECZN). All rights reserved.</p>
             <p className="mt-1">This website is for entertainment purposes only. Not financial advice.</p>
           </div>
         </div>
