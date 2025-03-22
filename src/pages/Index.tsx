@@ -50,8 +50,8 @@ const Index = () => {
                 <div className="aspect-square relative overflow-hidden rounded-lg">
                   <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/70 z-10"></div>
                   <img 
-                    src="/placeholder.svg" 
-                    alt="Crime Ceason Logo" 
+                    src="/lovable-uploads/b321fa1a-c225-4d74-97d2-0e82a5b14319.png" 
+                    alt="Crime Ceason Rugmap" 
                     className="w-full h-full object-cover"
                   />
                 </div>
