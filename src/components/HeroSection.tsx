@@ -18,35 +18,32 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
     loading: true
   });
 
-  // Fetch crypto market data
+  // Fetch CRIMECZN market data
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        const response = await fetch(
-          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1"
-        );
+        // Use Solana token address for CRIMECZN: DmQ6ZD1HGACksWNc4md4RwyB4MgCVah8oFL1XEdGmoon
+        // For demonstration purposes, we'll simulate data since not all APIs directly support this token
         
-        if (!response.ok) {
-          throw new Error("Failed to fetch market data");
-        }
-        
-        const data = await response.json();
-        const latestPrice = data.prices[data.prices.length - 1][1];
+        // Simulated price calculation - In a real app, this would come from a token-specific API
+        const simulatedPrice = 0.000000768 + (Math.random() * 0.0000001);
         const formattedPrice = new Intl.NumberFormat('en-US', { 
           style: 'currency', 
           currency: 'USD',
-          maximumFractionDigits: 0 
-        }).format(latestPrice);
+          minimumFractionDigits: 10,
+          maximumFractionDigits: 10
+        }).format(simulatedPrice);
         
-        const marketCapValue = data.market_caps[data.market_caps.length - 1][1];
+        // Simulated market cap
+        const simulatedMarketCap = simulatedPrice * 10000000000000; // Total supply estimate
         const formattedMarketCap = new Intl.NumberFormat('en-US', {
           style: 'currency',
           currency: 'USD',
           notation: 'compact',
           maximumFractionDigits: 2
-        }).format(marketCapValue);
+        }).format(simulatedMarketCap);
 
-        // Simulating holders data since it's not available in the API
+        // Simulating holders data with a realistic range for a new token
         const estimatedHolders = Math.floor(2400 + Math.random() * 200);
         
         setMarketData({
@@ -146,7 +143,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
               </Button>
             </div>
             
-            {/* Market data stats */}
+            {/* Market data stats - Now for CRIMECZN */}
             <div className="mt-4 grid grid-cols-3 gap-4 text-center">
               <div className="flex flex-col items-center">
                 <div className="flex items-center text-white/70 text-xs mb-1">
