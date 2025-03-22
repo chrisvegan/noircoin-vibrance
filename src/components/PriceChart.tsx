@@ -9,8 +9,6 @@ import {
   Tooltip, 
   ResponsiveContainer,
   Treemap,
-  Scatter,
-  ZAxis,
   Cell
 } from "recharts";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -199,7 +197,6 @@ const PriceChart = () => {
                 dataKey="value"
                 nameKey="name"
                 stroke="#fff"
-                strokeWidth={1}
                 aspectRatio={4 / 3}
               >
                 {
