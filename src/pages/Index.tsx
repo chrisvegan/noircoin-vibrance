@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -75,7 +76,7 @@ const Index = () => {
         <section id="chart" className="py-10">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight text-center">
-              <span className="text-gradient">$CRIMECZN</span> Price Action
+              <span className="text-gradient">Crypto Market</span> Overview
             </h2>
             <div className="backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 p-4 shadow-2xl">
               <PriceChart />
