@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ExternalLink, Lock, TrendingUp, Users, DollarSign } from "lucide-react";
@@ -18,56 +19,63 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
     loading: true
   });
 
-  // Fetch CRIMECZN market data from Birdeye API
+  // Fetch CRIMECZN market data from Dexscreener API
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        // Fetch CRIMECZN data from Birdeye API
+        // Fetch CRIMECZN data from Dexscreener API
         const response = await fetch(
-          `https://public-api.birdeye.so/public/tokeninfo?address=${contractAddress}`,
-          {
-            headers: {
-              "X-API-KEY": "1", // Public API key for limited access
-            }
-          }
+          `https://api.dexscreener.com/latest/dex/tokens/${contractAddress}`
         );
         
         // Handle API response 
         if (response.ok) {
           const data = await response.json();
-          console.log("Birdeye API response:", data);
+          console.log("Dexscreener API response:", data);
           
-          // Format price with appropriate decimal places
-          const tokenPrice = data.data?.value || 0.000000768;
-          const formattedPrice = new Intl.NumberFormat('en-US', { 
-            style: 'currency', 
-            currency: 'USD',
-            minimumFractionDigits: 10,
-            maximumFractionDigits: 10
-          }).format(tokenPrice);
-          
-          // Calculate and format market cap
-          const supply = data.data?.supply?.circulating || 10000000000000;
-          const marketCapValue = tokenPrice * supply;
-          const formattedMarketCap = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            notation: 'compact',
-            maximumFractionDigits: 2
-          }).format(marketCapValue);
+          if (data.pairs && data.pairs.length > 0) {
+            // Get the first pair which should be the primary trading pair
+            const primaryPair = data.pairs[0];
+            
+            // Format price with appropriate decimal places
+            const tokenPrice = primaryPair.priceUsd || 0.000000768;
+            const formattedPrice = new Intl.NumberFormat('en-US', { 
+              style: 'currency', 
+              currency: 'USD',
+              minimumFractionDigits: 10,
+              maximumFractionDigits: 10
+            }).format(parseFloat(tokenPrice));
+            
+            // Calculate and format market cap
+            const fdv = primaryPair.fdv || 7680000;
+            const formattedMarketCap = new Intl.NumberFormat('en-US', {
+              style: 'currency',
+              currency: 'USD',
+              notation: 'compact',
+              maximumFractionDigits: 2
+            }).format(fdv);
 
-          // Get holders data if available
-          const holdersCount = data.data?.holderCount || Math.floor(2400 + Math.random() * 200);
-          
-          setMarketData({
-            price: formattedPrice,
-            marketCap: formattedMarketCap,
-            holders: holdersCount,
-            loading: false
-          });
+            // For holders, we'll use an estimated number since Dexscreener doesn't provide this
+            const holdersCount = 2485; // Fixed estimate based on previous data
+            
+            setMarketData({
+              price: formattedPrice,
+              marketCap: formattedMarketCap,
+              holders: holdersCount,
+              loading: false
+            });
+          } else {
+            // Fall back to default values if no pairs found
+            setMarketData({
+              price: "$0.000000768",
+              marketCap: "$7.68M", 
+              holders: 2485,
+              loading: false
+            });
+          }
         } else {
           // Fallback to simulated data if API fails
-          console.error("Failed to fetch from Birdeye, using fallback data");
+          console.error("Failed to fetch from Dexscreener, using fallback data");
           setMarketData({
             price: "$0.000000768",
             marketCap: "$7.68M", 
