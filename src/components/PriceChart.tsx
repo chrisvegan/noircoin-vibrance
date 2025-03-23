@@ -138,9 +138,9 @@ const PriceChart = () => {
     <div className="w-full">
       <Tabs defaultValue="price" onValueChange={setChartType} className="w-full">
         <TabsList className="mx-auto mb-4 bg-white/10">
-          <TabsTrigger value="price">Price Chart</TabsTrigger>
+          <TabsTrigger value="price">BTC Price</TabsTrigger>
           <TabsTrigger value="bubble">Market Map</TabsTrigger>
-          <TabsTrigger value="volume">Volume Chart</TabsTrigger>
+          <TabsTrigger value="volume">BTC Chart</TabsTrigger>
         </TabsList>
         
         <TabsContent value="price" className="h-[400px]">

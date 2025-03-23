@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ExternalLink, Lock, TrendingUp, Users, DollarSign } from "lucide-react";
@@ -36,6 +35,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
         // Handle API response 
         if (response.ok) {
           const data = await response.json();
+          console.log("Birdeye API response:", data);
           
           // Format price with appropriate decimal places
           const tokenPrice = data.data?.value || 0.000000768;
@@ -68,56 +68,20 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
         } else {
           // Fallback to simulated data if API fails
           console.error("Failed to fetch from Birdeye, using fallback data");
-          const simulatedPrice = 0.000000768 + (Math.random() * 0.0000001);
-          const formattedPrice = new Intl.NumberFormat('en-US', { 
-            style: 'currency', 
-            currency: 'USD',
-            minimumFractionDigits: 10,
-            maximumFractionDigits: 10
-          }).format(simulatedPrice);
-          
-          const simulatedMarketCap = simulatedPrice * 10000000000000;
-          const formattedMarketCap = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            notation: 'compact',
-            maximumFractionDigits: 2
-          }).format(simulatedMarketCap);
-
-          const estimatedHolders = Math.floor(2400 + Math.random() * 200);
-          
           setMarketData({
-            price: formattedPrice,
-            marketCap: formattedMarketCap,
-            holders: estimatedHolders,
+            price: "$0.000000768",
+            marketCap: "$7.68M", 
+            holders: 2485,
             loading: false
           });
         }
       } catch (err) {
         console.error("Error fetching market data:", err);
         // Fallback to simulated data on error
-        const simulatedPrice = 0.000000768 + (Math.random() * 0.0000001);
-        const formattedPrice = new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          minimumFractionDigits: 10,
-          maximumFractionDigits: 10
-        }).format(simulatedPrice);
-        
-        const simulatedMarketCap = simulatedPrice * 10000000000000;
-        const formattedMarketCap = new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
-          notation: 'compact',
-          maximumFractionDigits: 2
-        }).format(simulatedMarketCap);
-
-        const estimatedHolders = Math.floor(2400 + Math.random() * 200);
-        
         setMarketData({
-          price: formattedPrice,
-          marketCap: formattedMarketCap,
-          holders: estimatedHolders,
+          price: "$0.000000768",
+          marketCap: "$7.68M",
+          holders: 2485,
           loading: false
         });
       }
