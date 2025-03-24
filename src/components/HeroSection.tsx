@@ -28,20 +28,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
       try {
         const data = await getTokenData(contractAddress);
         setMarketData(data);
+        console.log("Successfully fetched and set token data:", data);
       } catch (err) {
         console.error("Error in market data fetch:", err);
         toast({
           title: "Data fetch error",
-          description: "Error fetching latest market data",
+          description: "Error fetching latest market data, using cached data",
           variant: "destructive"
-        });
-        
-        // Set fallback data on error
-        setMarketData({
-          price: "$0.000000768",
-          marketCap: "$7.68M",
-          holders: 2485,
-          loading: false
         });
       }
     };

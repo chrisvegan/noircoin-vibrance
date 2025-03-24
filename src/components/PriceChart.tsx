@@ -18,8 +18,8 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2 } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Loader2, TrendingUp, TrendingDown } from "lucide-react";
 
 const chartConfig = {
   price: {
@@ -43,8 +43,15 @@ const PriceChart = () => {
   const [chartType, setChartType] = useState("price");
   const [cryptoData, setCryptoData] = useState([]);
   const [bubbleData, setBubbleData] = useState([]);
+  const [marketStats, setMarketStats] = useState({
+    btcPrice: 0,
+    btcMarketCap: 0,
+    btcVolume: 0,
+    btcChange24h: 0,
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [lastUpdated, setLastUpdated] = useState("");
 
   // Fetch price history data from CoinGecko
   useEffect(() => {
@@ -52,7 +59,13 @@ const PriceChart = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=14&interval=daily"
+          "https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=14&interval=daily",
+          { 
+            headers: { 
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+            } 
+          }
         );
         
         if (!response.ok) {
@@ -62,16 +75,34 @@ const PriceChart = () => {
         const data = await response.json();
         
         // Format price data for the chart
-        const formattedData = data.prices.map((item) => {
+        const formattedData = data.prices.map((item, index) => {
           const date = new Date(item[0]);
           return {
             date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
             price: item[1],
-            volume: data.total_volumes.find(vol => vol[0] === item[0])?.[1] || 0
+            volume: data.total_volumes[index]?.[1] || 0
           };
         });
         
         setCryptoData(formattedData);
+        
+        // Set the latest BTC stats for the cards
+        if (formattedData.length > 0) {
+          const latestDay = formattedData[formattedData.length - 1];
+          const previousDay = formattedData[formattedData.length - 2] || formattedData[0];
+          
+          const priceChange = ((latestDay.price - previousDay.price) / previousDay.price) * 100;
+          
+          setMarketStats({
+            btcPrice: latestDay.price,
+            btcMarketCap: data.market_caps[data.market_caps.length - 1]?.[1] || 0,
+            btcVolume: latestDay.volume,
+            btcChange24h: priceChange,
+          });
+          
+          // Set last updated time
+          setLastUpdated(new Date().toLocaleString());
+        }
       } catch (err) {
         console.error("Error fetching price data:", err);
         setError(err.message);
@@ -85,7 +116,13 @@ const PriceChart = () => {
       try {
         setIsLoading(true);
         const response = await fetch(
-          "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false&price_change_percentage=24h"
+          "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=30&page=1&sparkline=false&price_change_percentage=24h",
+          { 
+            headers: { 
+              'Accept': 'application/json',
+              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
+            } 
+          }
         );
         
         if (!response.ok) {
@@ -115,6 +152,14 @@ const PriceChart = () => {
 
     fetchPriceData();
     fetchMarketData();
+    
+    // Refresh data every 5 minutes
+    const interval = setInterval(() => {
+      fetchPriceData();
+      fetchMarketData();
+    }, 300000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   if (isLoading) {
@@ -140,7 +185,7 @@ const PriceChart = () => {
         <TabsList className="mx-auto mb-4 bg-white/10">
           <TabsTrigger value="price">BTC Price</TabsTrigger>
           <TabsTrigger value="bubble">Market Map</TabsTrigger>
-          <TabsTrigger value="volume">BTC Chart</TabsTrigger>
+          <TabsTrigger value="volume">BTC Trading Volume</TabsTrigger>
         </TabsList>
         
         <TabsContent value="price" className="h-[400px]">
@@ -270,8 +315,68 @@ const PriceChart = () => {
         </TabsContent>
       </Tabs>
       
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl flex items-center gap-2">
+              Bitcoin Price
+            </CardTitle>
+            <CardDescription>
+              Current value of BTC
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">${marketStats.btcPrice.toLocaleString()}</p>
+            <div className="flex items-center mt-1">
+              {marketStats.btcChange24h >= 0 ? (
+                <TrendingUp className="h-4 w-4 text-green-400 mr-1" />
+              ) : (
+                <TrendingDown className="h-4 w-4 text-red-400 mr-1" />
+              )}
+              <p className={`text-sm ${marketStats.btcChange24h >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                {marketStats.btcChange24h.toFixed(2)}% (24h)
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl flex items-center gap-2">
+              Market Cap
+            </CardTitle>
+            <CardDescription>
+              BTC's total market value
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">${(marketStats.btcMarketCap / 1000000000).toFixed(1)}B</p>
+            <p className="text-sm text-white/60 mt-1">
+              {(marketStats.btcMarketCap / 1000000000000).toFixed(2)}T USD total value
+            </p>
+          </CardContent>
+        </Card>
+        
+        <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-xl flex items-center gap-2">
+              24h Volume
+            </CardTitle>
+            <CardDescription>
+              Trading activity last 24h
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">${(marketStats.btcVolume / 1000000000).toFixed(1)}B</p>
+            <p className="text-sm text-white/60 mt-1">
+              {((marketStats.btcVolume / marketStats.btcMarketCap) * 100).toFixed(1)}% of market cap
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+      
       <div className="mt-4 text-center text-xs text-white/50">
-        <p>Data source: CoinGecko API | Refreshed automatically</p>
+        <p>Data source: CoinGecko API | Last updated: {lastUpdated}</p>
       </div>
     </div>
   );
