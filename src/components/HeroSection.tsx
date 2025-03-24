@@ -1,9 +1,11 @@
+
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Copy, Check, ExternalLink, Lock, TrendingUp, Users, DollarSign } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
+import { getTokenData, TokenMarketData } from "@/utils/tokenDataService";
 
 interface HeroSectionProps {
   contractAddress: string;
@@ -13,123 +15,28 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copiedAddress }) => {
   const { toast } = useToast();
-  const [marketData, setMarketData] = useState({
+  const [marketData, setMarketData] = useState<TokenMarketData>({
     price: "0",
     marketCap: "0",
     holders: 0,
     loading: true
   });
 
-  // Fetch CRIMECZN market data from CoinGecko API
+  // Fetch CRIMECZN market data
   useEffect(() => {
     const fetchMarketData = async () => {
       try {
-        // Fetch CRIMECZN data from CoinGecko API
-        const response = await fetch(
-          `https://api.coingecko.com/api/v3/coins/solana/contract/${contractAddress}`
-        );
-        
-        // Handle API response 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("CoinGecko API response:", data);
-          
-          // Format price with appropriate decimal places
-          const tokenPrice = data.market_data?.current_price?.usd || 0.000000768;
-          const formattedPrice = new Intl.NumberFormat('en-US', { 
-            style: 'currency', 
-            currency: 'USD',
-            minimumFractionDigits: 10,
-            maximumFractionDigits: 10
-          }).format(tokenPrice);
-          
-          // Get and format market cap
-          const marketCapValue = data.market_data?.market_cap?.usd || 7680000;
-          const formattedMarketCap = new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            notation: 'compact',
-            maximumFractionDigits: 2
-          }).format(marketCapValue);
-
-          // Get holders data
-          // Note: CoinGecko doesn't provide holder count directly, so we'll use community data if available
-          const holdersCount = data.community_data?.twitter_followers || 2485; 
-          
-          setMarketData({
-            price: formattedPrice,
-            marketCap: formattedMarketCap,
-            holders: holdersCount,
-            loading: false
-          });
-          
-        } else {
-          // Try fallback to simplified CoinGecko endpoint
-          try {
-            const simpleResponse = await fetch(
-              `https://api.coingecko.com/api/v3/simple/token_price/solana?contract_addresses=${contractAddress}&vs_currencies=usd&include_market_cap=true`
-            );
-            
-            if (simpleResponse.ok) {
-              const simpleData = await simpleResponse.json();
-              console.log("CoinGecko simple API response:", simpleData);
-              
-              if (simpleData[contractAddress.toLowerCase()]) {
-                const tokenData = simpleData[contractAddress.toLowerCase()];
-                
-                const tokenPrice = tokenData.usd || 0.000000768;
-                const formattedPrice = new Intl.NumberFormat('en-US', { 
-                  style: 'currency', 
-                  currency: 'USD',
-                  minimumFractionDigits: 10,
-                  maximumFractionDigits: 10
-                }).format(tokenPrice);
-                
-                const marketCapValue = tokenData.usd_market_cap || 7680000;
-                const formattedMarketCap = new Intl.NumberFormat('en-US', {
-                  style: 'currency',
-                  currency: 'USD',
-                  notation: 'compact',
-                  maximumFractionDigits: 2
-                }).format(marketCapValue);
-                
-                setMarketData({
-                  price: formattedPrice,
-                  marketCap: formattedMarketCap,
-                  holders: 2485, // Default since API doesn't provide this
-                  loading: false
-                });
-                
-                return; // Exit if fallback successful
-              }
-            }
-            
-            // If we reach here, fallback also failed
-            throw new Error("Both primary and fallback API requests failed");
-            
-          } catch (fallbackErr) {
-            console.error("Fallback API also failed:", fallbackErr);
-            // Continue to the general fallback below
-          }
-          
-          // Fallback to simulated data if all API calls fail
-          console.error("Failed to fetch from CoinGecko, using fallback data");
-          toast({
-            title: "Data fetch error",
-            description: "Using fallback market data",
-            variant: "destructive"
-          });
-          
-          setMarketData({
-            price: "$0.000000768",
-            marketCap: "$7.68M", 
-            holders: 2485,
-            loading: false
-          });
-        }
+        const data = await getTokenData(contractAddress);
+        setMarketData(data);
       } catch (err) {
-        console.error("Error fetching market data:", err);
-        // Fallback to simulated data on error
+        console.error("Error in market data fetch:", err);
+        toast({
+          title: "Data fetch error",
+          description: "Error fetching latest market data",
+          variant: "destructive"
+        });
+        
+        // Set fallback data on error
         setMarketData({
           price: "$0.000000768",
           marketCap: "$7.68M",
