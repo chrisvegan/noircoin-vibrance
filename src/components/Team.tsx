@@ -1,41 +1,41 @@
 
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Twitter, Globe, ExternalLink } from "lucide-react";
+import { Twitter, Globe, ExternalLink, MessageCircle } from "lucide-react";
 
 const Team = () => {
   const teamMembers = [
     {
-      name: "Detective Noir",
+      name: "Night Owl",
       role: "Lead Investigator",
       image: "/placeholder.svg",
-      twitter: "#",
+      telegram: "https://t.me/@perturpe",
       website: "#",
-      description: "Uncovering crypto crimes since 2020, specializing in tracking rugpull patterns."
+      description: "Always vigilant, keeping the community informed and engaged 24/7."
     },
     {
-      name: "The Shadow",
+      name: "Chris Vegan",
       role: "Development Specialist",
       image: "/placeholder.svg",
-      twitter: "#",
+      telegram: "https://t.me/ChrisVegan",
       website: "#",
       description: "Works from the shadows to build secure, Anti-scam smart contracts."
     },
     {
-      name: "Night Owl",
+      name: "The Shadow",
       role: "Community Manager",
       image: "/placeholder.svg",
-      twitter: "#",
+      telegram: "#",
       website: "#",
-      description: "Always vigilant, keeping the community informed and engaged 24/7."
+      description: "Spreading the word about Crime Ceason's mission across the crypto underworld."
     },
     {
       name: "The Informant",
       role: "Marketing Strategist",
       image: "/placeholder.svg",
-      twitter: "#",
+      telegram: "#",
       website: "#",
-      description: "Spreading the word about Crime Ceason's mission across the crypto underworld."
+      description: "Uncovering crypto crimes since 2020, specializing in tracking rugpull patterns."
     }
     // Space for Dirty Jeeto team members will be added here
   ];
@@ -66,11 +66,13 @@ const Team = () => {
               
               <div className="flex justify-center space-x-3">
                 <a 
-                  href={member.twitter} 
+                  href={member.telegram} 
                   className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
-                  aria-label={`${member.name}'s Twitter`}
+                  aria-label={`${member.name}'s Telegram`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  <Twitter className="h-4 w-4" />
+                  <MessageCircle className="h-4 w-4" />
                 </a>
                 <a 
                   href={member.website} 
