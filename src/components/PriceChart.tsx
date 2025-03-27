@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -117,7 +118,6 @@ const VolumeTooltip = ({ active, payload, label }: {
   return null;
 };
 
-// Change the title of the third tab to "BTC Volume"
 const PriceChart = () => {
   
   return (
