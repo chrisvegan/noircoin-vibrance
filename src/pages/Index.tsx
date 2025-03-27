@@ -81,6 +81,34 @@ const Index = () => {
             <div className="backdrop-blur-sm bg-white/5 rounded-xl border border-white/10 p-4 shadow-2xl">
               <PriceChart />
             </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
+              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <Banknote className="h-5 w-5" /> $CRIMECZN Market Cap
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">$10.5M</p>
+                  <p className="text-sm text-green-400">+15.3% (24h)</p>
+                  <p className="text-sm text-white/60 mt-1">Currently ranked #721 by market cap</p>
+                </CardContent>
+              </Card>
+              
+              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
+                <CardHeader>
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <Shield className="h-5 w-5" /> $CRIMECZN Holders
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-2xl font-bold">2,485</p>
+                  <p className="text-sm text-green-400">+103 (24h)</p>
+                  <p className="text-sm text-white/60 mt-1">Average holding: 24,850 $CRIMECZN per wallet</p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </section>
         
@@ -173,4 +201,3 @@ const Index = () => {
 };
 
 export default Index;
-
