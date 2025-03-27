@@ -40,7 +40,7 @@ const Index = () => {
       
       {/* Main Content */}
       <main className="container mx-auto px-4 py-12 space-y-24">
-        {/* Logo Section - NEW */}
+        {/* Logo Section */}
         <section id="about" className="py-10">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-10 tracking-tight text-center">
@@ -82,40 +82,30 @@ const Index = () => {
               <PriceChart />
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12">
               <Card className="bg-white/5 backdrop-blur-sm border-white/10">
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center gap-2">
-                    <Banknote className="h-5 w-5" /> Market Cap
+                    <Banknote className="h-5 w-5" /> $CRIMECZN Market Cap
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold">$10.5M</p>
                   <p className="text-sm text-green-400">+15.3% (24h)</p>
+                  <p className="text-sm text-white/60 mt-1">Currently ranked #721 by market cap</p>
                 </CardContent>
               </Card>
               
               <Card className="bg-white/5 backdrop-blur-sm border-white/10">
                 <CardHeader>
                   <CardTitle className="text-xl flex items-center gap-2">
-                    <Shield className="h-5 w-5" /> Holders
+                    <Shield className="h-5 w-5" /> $CRIMECZN Holders
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold">2,485</p>
                   <p className="text-sm text-green-400">+103 (24h)</p>
-                </CardContent>
-              </Card>
-              
-              <Card className="bg-white/5 backdrop-blur-sm border-white/10">
-                <CardHeader>
-                  <CardTitle className="text-xl flex items-center gap-2">
-                    <Users className="h-5 w-5" /> Community
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-2xl font-bold">12.7K</p>
-                  <p className="text-sm text-green-400">Growing daily</p>
+                  <p className="text-sm text-white/60 mt-1">Average holding: 24,850 $CRIMECZN per wallet</p>
                 </CardContent>
               </Card>
             </div>

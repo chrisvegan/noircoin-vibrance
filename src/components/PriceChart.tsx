@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/chart";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Loader2, TrendingUp, TrendingDown } from "lucide-react";
+import { Loader2, TrendingUp, TrendingDown, Calendar } from "lucide-react";
 
 const chartConfig = {
   price: {
@@ -79,6 +79,7 @@ const PriceChart = () => {
           const date = new Date(item[0]);
           return {
             date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+            fullDate: date.toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
             price: item[1],
             volume: data.total_volumes[index]?.[1] || 0
           };
@@ -162,6 +163,56 @@ const PriceChart = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Custom tooltip content component for the price chart
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-black/90 border border-white/20 p-3 rounded-lg shadow-xl">
+          <div className="flex items-center gap-2 mb-2 border-b border-white/10 pb-2">
+            <Calendar className="h-4 w-4 text-white/60" />
+            <p className="text-sm font-medium text-white">{data.fullDate}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-white/70">
+              Price: <span className="font-mono text-white font-semibold">${Number(data.price).toLocaleString(undefined, {maximumFractionDigits: 2})}</span>
+            </p>
+            <p className="text-sm text-white/70">
+              Volume: <span className="font-mono text-white font-semibold">${(data.volume / 1000000000).toFixed(2)}B</span>
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Custom tooltip for volume chart
+  const VolumeTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      const data = payload[0].payload;
+      return (
+        <div className="bg-black/90 border border-white/20 p-3 rounded-lg shadow-xl">
+          <div className="flex items-center gap-2 mb-2 border-b border-white/10 pb-2">
+            <Calendar className="h-4 w-4 text-white/60" />
+            <p className="text-sm font-medium text-white">{data.fullDate}</p>
+          </div>
+          <div className="flex flex-col gap-1">
+            <p className="text-sm text-white/70">
+              Daily Volume: <span className="font-mono text-white font-semibold">${(data.volume / 1000000000).toFixed(2)}B</span>
+            </p>
+            <p className="text-sm text-white/70">
+              % of Market Cap: <span className="font-mono text-white font-semibold">
+                {((data.volume / marketStats.btcMarketCap) * 100).toFixed(1)}%
+              </span>
+            </p>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  };
+
   if (isLoading) {
     return (
       <div className="w-full h-[400px] flex items-center justify-center">
@@ -185,7 +236,7 @@ const PriceChart = () => {
         <TabsList className="mx-auto mb-4 bg-white/10">
           <TabsTrigger value="price">BTC Price</TabsTrigger>
           <TabsTrigger value="bubble">Market Map</TabsTrigger>
-          <TabsTrigger value="volume">BTC Trading Volume</TabsTrigger>
+          <TabsTrigger value="volume">BTC Volume</TabsTrigger>
         </TabsList>
         
         <TabsContent value="price" className="h-[400px]">
@@ -215,13 +266,7 @@ const PriceChart = () => {
                 width={70}
               />
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent 
-                    formatter={(value) => [`$${Number(value).toLocaleString()}`, "BTC Price"]} 
-                  />
-                }
-              />
+              <Tooltip content={<CustomTooltip />} />
               <Area 
                 type="monotone" 
                 dataKey="price" 
@@ -295,13 +340,7 @@ const PriceChart = () => {
                 width={70}
               />
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" vertical={false} />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent 
-                    formatter={(value) => [`$${(Number(value)/1000000000).toFixed(2)}B`, "BTC Volume"]} 
-                  />
-                }
-              />
+              <Tooltip content={<VolumeTooltip />} />
               <Area 
                 type="monotone" 
                 dataKey="volume" 
@@ -315,18 +354,18 @@ const PriceChart = () => {
         </TabsContent>
       </Tabs>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
         <Card className="bg-white/5 backdrop-blur-sm border-white/10">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
               Bitcoin Price
             </CardTitle>
             <CardDescription>
-              Current value of BTC
+              Current value of 1 BTC
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">${marketStats.btcPrice.toLocaleString()}</p>
+            <p className="text-2xl font-bold">${marketStats.btcPrice.toLocaleString(undefined, {maximumFractionDigits: 2})}</p>
             <div className="flex items-center mt-1">
               {marketStats.btcChange24h >= 0 ? (
                 <TrendingUp className="h-4 w-4 text-green-400 mr-1" />
@@ -343,33 +382,16 @@ const PriceChart = () => {
         <Card className="bg-white/5 backdrop-blur-sm border-white/10">
           <CardHeader className="pb-2">
             <CardTitle className="text-xl flex items-center gap-2">
-              Market Cap
+              Trading Volume
             </CardTitle>
             <CardDescription>
-              BTC's total market value
+              BTC daily trading activity
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-2xl font-bold">${(marketStats.btcMarketCap / 1000000000).toFixed(1)}B</p>
+            <p className="text-2xl font-bold">${(marketStats.btcVolume / 1000000000).toFixed(2)}B</p>
             <p className="text-sm text-white/60 mt-1">
-              {(marketStats.btcMarketCap / 1000000000000).toFixed(2)}T USD total value
-            </p>
-          </CardContent>
-        </Card>
-        
-        <Card className="bg-white/5 backdrop-blur-sm border-white/10">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-xl flex items-center gap-2">
-              24h Volume
-            </CardTitle>
-            <CardDescription>
-              Trading activity last 24h
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">${(marketStats.btcVolume / 1000000000).toFixed(1)}B</p>
-            <p className="text-sm text-white/60 mt-1">
-              {((marketStats.btcVolume / marketStats.btcMarketCap) * 100).toFixed(1)}% of market cap
+              {((marketStats.btcVolume / marketStats.btcMarketCap) * 100).toFixed(2)}% of market cap traded daily
             </p>
           </CardContent>
         </Card>
