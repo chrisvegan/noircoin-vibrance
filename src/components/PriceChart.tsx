@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, BarChart, Bar, ScatterChart, Scatter, ZAxis, Bubble } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Mock data for the price chart
@@ -22,29 +22,35 @@ const data = [
   { date: '2024-01-15', price: 36500, high: 37000, low: 36000, volume: 4800 },
 ];
 
-// Mock data for price comparison chart
-const comparisonData = [
-  { date: '2024-01-01', btc: 29000, eth: 1800, ltc: 75 },
-  { date: '2024-01-02', btc: 30000, eth: 1900, ltc: 80 },
-  { date: '2024-01-03', btc: 31000, eth: 2000, ltc: 85 },
-  { date: '2024-01-04', btc: 30500, eth: 1950, ltc: 82 },
-  { date: '2024-01-05', btc: 31500, eth: 2050, ltc: 88 },
-  { date: '2024-01-06', btc: 32000, eth: 2100, ltc: 90 },
-  { date: '2024-01-07', btc: 32500, eth: 2150, ltc: 92 },
+// Data for bubble chart (market cap visualization)
+const bubbleData = [
+  { name: 'BTC', value: 760000000000, volume: 40000000000, marketShare: 45 },
+  { name: 'ETH', value: 220000000000, volume: 20000000000, marketShare: 18 },
+  { name: 'BNB', value: 37000000000, volume: 2000000000, marketShare: 4 },
+  { name: 'SOL', value: 32000000000, volume: 5000000000, marketShare: 3 },
+  { name: 'XRP', value: 25000000000, volume: 1500000000, marketShare: 2.5 },
+  { name: 'ADA', value: 11000000000, volume: 800000000, marketShare: 1.2 },
+  { name: 'DOGE', value: 10000000000, volume: 700000000, marketShare: 1 },
+  { name: 'AVAX', value: 8000000000, volume: 600000000, marketShare: 0.8 },
+  { name: 'MATIC', value: 5000000000, volume: 400000000, marketShare: 0.6 },
+  { name: 'CRIMECZN', value: 7680000, volume: 500000, marketShare: 0.001 },
 ];
 
 // Mock data for volume chart
 const volumeData = [
-  { date: '2024-01-01', volume: 1500 },
-  { date: '2024-01-02', volume: 1800 },
-  { date: '2024-01-03', volume: 2000 },
-  { date: '2024-01-04', volume: 1700 },
-  { date: '2024-01-05', volume: 2200 },
-  { date: '2024-01-06', volume: 2500 },
-  { date: '2024-01-07', volume: 2800 },
+  { date: '2024-01-01', volume: 25000000000 },
+  { date: '2024-01-02', volume: 28000000000 },
+  { date: '2024-01-03', volume: 30000000000 },
+  { date: '2024-01-04', volume: 27000000000 },
+  { date: '2024-01-05', volume: 32000000000 },
+  { date: '2024-01-06', volume: 35000000000 },
+  { date: '2024-01-07', volume: 38000000000 },
+  { date: '2024-01-08', volume: 40000000000 },
+  { date: '2024-01-09', volume: 42000000000 },
+  { date: '2024-01-10', volume: 45000000000 },
 ];
 
-// CustomTooltip for the price chart - Fix for TypeScript error by properly typing the props
+// CustomTooltip for the price chart
 const CustomTooltip = ({ active, payload, label }: { 
   active?: boolean; 
   payload?: Array<any>; 
@@ -71,25 +77,24 @@ const CustomTooltip = ({ active, payload, label }: {
   return null;
 };
 
-// Custom tooltip for the comparison chart
-const ComparisonTooltip = ({ active, payload, label }: {
+// Bubble chart tooltip
+const BubbleTooltip = ({ active, payload }: {
   active?: boolean;
   payload?: Array<any>;
-  label?: string;
 }) => {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
       <div className="custom-tooltip bg-black/90 p-4 rounded-lg border border-white/20 shadow-xl backdrop-blur-sm">
-        <p className="label text-white/70 text-sm">{new Date(data.date).toLocaleDateString()}</p>
-        <p className="font-bold text-yellow-400">
-          BTC: <span className="text-white">${Number(data.btc).toLocaleString()}</span>
+        <p className="font-bold text-lg text-blue-400">{data.name}</p>
+        <p className="text-sm text-white/70">
+          Market Cap: <span className="text-white">${(data.value / 1000000000).toFixed(2)}B</span>
         </p>
-        <p className="font-bold text-blue-400">
-          ETH: <span className="text-white">${Number(data.eth).toLocaleString()}</span>
+        <p className="text-sm text-white/70">
+          Volume: <span className="text-white">${(data.volume / 1000000000).toFixed(2)}B</span>
         </p>
-        <p className="font-bold text-purple-400">
-          LTC: <span className="text-white">${Number(data.ltc).toLocaleString()}</span>
+        <p className="text-sm text-white/70">
+          Market Share: <span className="text-white">{data.marketShare}%</span>
         </p>
       </div>
     );
@@ -97,7 +102,7 @@ const ComparisonTooltip = ({ active, payload, label }: {
   return null;
 };
 
-// Volume chart tooltip - Fix for TypeScript error by properly typing the props
+// Volume chart tooltip
 const VolumeTooltip = ({ active, payload, label }: {
   active?: boolean;
   payload?: Array<any>;
@@ -108,9 +113,9 @@ const VolumeTooltip = ({ active, payload, label }: {
     return (
       <div className="custom-tooltip bg-black/90 p-4 rounded-lg border border-white/20 shadow-xl backdrop-blur-sm">
         <p className="label text-white/70 text-sm">{new Date(data.date).toLocaleDateString()}</p>
-        <p className="font-bold text-white">${Number(data.volume).toLocaleString()}</p>
+        <p className="font-bold text-orange-400">${(data.volume / 1000000000).toFixed(2)}B</p>
         <p className="text-sm text-white/70 mt-1">
-          Trading Volume for <span className="text-orange-400">Bitcoin</span>
+          24h Trading Volume for <span className="text-yellow-500">Bitcoin</span>
         </p>
       </div>
     );
@@ -125,48 +130,87 @@ const PriceChart = () => {
       <Tabs defaultValue="chart">
         <TabsList className="w-full max-w-md mx-auto mb-6 bg-white/5">
           <TabsTrigger value="chart" className="flex-1">BTC Price</TabsTrigger>
-          <TabsTrigger value="comparison" className="flex-1">Price Comparison</TabsTrigger>
+          <TabsTrigger value="bubble" className="flex-1">Market Map</TabsTrigger>
           <TabsTrigger value="volume" className="flex-1">BTC Volume</TabsTrigger>
         </TabsList>
         
+        {/* BTC Price Chart */}
         <TabsContent value="chart">
           <ResponsiveContainer width="100%" height={400}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis dataKey="date" stroke="#fff" tickFormatter={(date) => new Date(date).toLocaleDateString()} />
-              <YAxis stroke="#fff" tickFormatter={(price) => `$${price.toLocaleString()}`} />
+              <YAxis stroke="#fff" tickFormatter={(price) => `$${(price/1000)}k`} />
               <Tooltip content={<CustomTooltip />} />
               <Legend />
-              <Line type="monotone" dataKey="price" stroke="#22c55e" strokeWidth={2} name="Price" />
+              <Line type="monotone" dataKey="price" stroke="#22c55e" strokeWidth={2} dot={false} name="Price" />
+              <Line type="monotone" dataKey="high" stroke="#3b82f6" strokeWidth={1} dot={false} name="High" />
+              <Line type="monotone" dataKey="low" stroke="#ef4444" strokeWidth={1} dot={false} name="Low" />
             </LineChart>
           </ResponsiveContainer>
         </TabsContent>
         
-        <TabsContent value="comparison">
+        {/* Market Map Bubble Chart */}
+        <TabsContent value="bubble">
           <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={comparisonData}>
+            <ScatterChart margin={{ top: 20, right: 20, bottom: 20, left: 20 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-              <XAxis dataKey="date" stroke="#fff" tickFormatter={(date) => new Date(date).toLocaleDateString()} />
-              <YAxis stroke="#fff" tickFormatter={(price) => `$${price.toLocaleString()}`} />
-              <Tooltip content={<ComparisonTooltip />} />
-              <Legend />
-              <Line type="monotone" dataKey="btc" stroke="#ffc857" strokeWidth={2} name="Bitcoin" />
-              <Line type="monotone" dataKey="eth" stroke="#3b82f6" strokeWidth={2} name="Ethereum" />
-              <Line type="monotone" dataKey="ltc" stroke="#a855f7" strokeWidth={2} name="Litecoin" />
-            </LineChart>
+              <XAxis 
+                type="category" 
+                dataKey="name" 
+                name="Coin" 
+                stroke="#fff" 
+              />
+              <YAxis 
+                type="number" 
+                dataKey="marketShare" 
+                name="Market Share" 
+                stroke="#fff"
+                label={{ value: 'Market Share %', angle: -90, position: 'insideLeft', fill: '#fff' }}
+              />
+              <ZAxis 
+                type="number" 
+                dataKey="value" 
+                range={[50, 500]} 
+                name="Market Cap"
+              />
+              <Tooltip content={<BubbleTooltip />} />
+              <Scatter 
+                name="Market Cap" 
+                data={bubbleData} 
+                fill="#8884d8" 
+                fillOpacity={0.6}
+              />
+            </ScatterChart>
           </ResponsiveContainer>
         </TabsContent>
         
+        {/* BTC Volume Chart */}
         <TabsContent value="volume">
           <ResponsiveContainer width="100%" height={400}>
-            <BarChart data={volumeData}>
+            <AreaChart data={volumeData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#444" />
               <XAxis dataKey="date" stroke="#fff" tickFormatter={(date) => new Date(date).toLocaleDateString()} />
-              <YAxis stroke="#fff" tickFormatter={(volume) => `$${volume.toLocaleString()}`} />
+              <YAxis 
+                stroke="#fff" 
+                tickFormatter={(volume) => `$${(volume / 1000000000).toFixed(0)}B`} 
+              />
               <Tooltip content={<VolumeTooltip />} />
               <Legend />
-              <Bar dataKey="volume" fill="#f97316" name="Volume" />
-            </BarChart>
+              <Area 
+                type="monotone" 
+                dataKey="volume" 
+                stroke="#f97316" 
+                fill="url(#colorVolume)" 
+                name="Volume" 
+              />
+              <defs>
+                <linearGradient id="colorVolume" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#f97316" stopOpacity={0.8}/>
+                  <stop offset="95%" stopColor="#f97316" stopOpacity={0.1}/>
+                </linearGradient>
+              </defs>
+            </AreaChart>
           </ResponsiveContainer>
         </TabsContent>
       </Tabs>
