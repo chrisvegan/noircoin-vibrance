@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check, ExternalLink, Lock, TrendingUp, Users, DollarSign } from "lucide-react";
+import { Copy, Check, ExternalLink, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
@@ -123,41 +123,16 @@ const HeroSection: React.FC<HeroSectionProps> = ({ contractAddress, onCopy, copi
               </Button>
             </div>
             
-            {/* Market data stats for CRIMECZN */}
-            <div className="mt-4 grid grid-cols-3 gap-4 text-center">
+            {/* Price data only - removed Market Cap and Holders sections */}
+            <div className="mt-4 text-center">
               <div className="flex flex-col items-center">
                 <div className="flex items-center text-white/70 text-xs mb-1">
-                  <DollarSign className="h-3 w-3 mr-1" />
                   <span>Price</span>
                 </div>
                 {marketData.loading ? (
                   <Skeleton className="h-5 w-20 bg-white/20 rounded" />
                 ) : (
                   <span className="text-green-400 font-medium">{marketData.price}</span>
-                )}
-              </div>
-              
-              <div className="flex flex-col items-center">
-                <div className="flex items-center text-white/70 text-xs mb-1">
-                  <TrendingUp className="h-3 w-3 mr-1" />
-                  <span>Market Cap</span>
-                </div>
-                {marketData.loading ? (
-                  <Skeleton className="h-5 w-20 bg-white/20 rounded" />
-                ) : (
-                  <span className="text-white font-medium">{marketData.marketCap}</span>
-                )}
-              </div>
-              
-              <div className="flex flex-col items-center">
-                <div className="flex items-center text-white/70 text-xs mb-1">
-                  <Users className="h-3 w-3 mr-1" />
-                  <span>Holders</span>
-                </div>
-                {marketData.loading ? (
-                  <Skeleton className="h-5 w-20 bg-white/20 rounded" />
-                ) : (
-                  <span className="text-white font-medium">{marketData.holders.toLocaleString()}</span>
                 )}
               </div>
             </div>
