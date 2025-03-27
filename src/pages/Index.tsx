@@ -150,7 +150,7 @@ const Index = () => {
               <h3 className="text-xl font-bold mb-4">Community</h3>
               <div className="flex space-x-4">
                 <a href="https://t.me/crimeczn" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full" aria-label="Telegram">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.82 9.242a2.446 2.446 0 0 0-1.67-1.518c-1.196-.379-2.415-.575-3.648-.577-1.297-.013-6.547-.013-6.547-.013s-4.673-.010-6.01.034c-1.253.034-2.462.266-3.514.677A2.36 2.36 0 0 0 .1 9.021 24.93 24.93 0 0 0 .064 12c-.013 1.024.026 2.048.115 3.07.056.606.343 1.175.792 1.573.45.398 1.034.658 1.653.732 1.223.303 2.47.453 3.726.446 1.684.017 3.368-.025 5.05-.124l.294-.023c1.257-.11 2.48-.559 3.635-1.128.561-.277.969-.754 1.137-1.324.43-1.265.65-2.586.65-3.917-.006-1.009-.052-1.955-.232-2.92Z"/><path d="m9.602 14.682 4.173-2.401-4.173-2.402v4.803Z"/></svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.82 9.242a2.446 2.446 0 0 0-1.67-1.518c-1.196-.379-2.415-.575-3.648-.577-1.297-.013-6.547-.013-6.547-.013s-4.673-.01-6.01.034c-1.253.034-2.462.266-3.514.677A2.36 2.36 0 0 0 .1 9.021 24.93 24.93 0 0 0 .064 12c-.013 1.024.026 2.048.115 3.07.056.606.343 1.175.792 1.573.45.398 1.034.658 1.653.732 1.223.303 2.47.453 3.726.446 1.684.017 3.368-.025 5.05-.124l.294-.023c1.257-.11 2.48-.559 3.635-1.128.561-.277.969-.754 1.137-1.324.43-1.265.65-2.586.65-3.917-.006-1.009-.052-1.955-.232-2.92Z"/><path d="m9.602 14.682 4.173-2.401-4.173-2.402v4.803Z"/></svg>
                 </a>
                 <a href="https://x.com/CrimeCznCto" target="_blank" rel="noopener noreferrer" className="bg-white/10 hover:bg-white/20 transition-colors p-3 rounded-full" aria-label="X (Twitter)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034 1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c0 -.249 1.51 -2.772 1.818 -4.013z"></path></svg>
@@ -173,3 +173,4 @@ const Index = () => {
 };
 
 export default Index;
+
